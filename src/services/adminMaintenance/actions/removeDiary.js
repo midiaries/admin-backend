@@ -39,11 +39,13 @@ const runner = async (app, data) => {
   if (data.actuallyDelete) {
     try {
       const destination = app.get('uploads');
-      for (const relatedTranscriptSentence of relatedTranscriptSentences.data) {
-        TranscriptSentenceService.remove(relatedTranscriptSentence.id);
-      }
-      for (const relatedTranscription of relatedTranscriptions.data) {
-        TranscriptionService.remove(relatedTranscription.id);
+      if (relatedTranscriptionCount > 0) {
+        for (const relatedTranscriptSentence of relatedTranscriptSentences.data) {
+          TranscriptSentenceService.remove(relatedTranscriptSentence.id);
+        }
+        for (const relatedTranscription of relatedTranscriptions.data) {
+          TranscriptionService.remove(relatedTranscription.id);
+        }
       }
       for (const relatedDocument of relatedDocuments.data) {
         DocumentService.remove(relatedDocument.id);
