@@ -83,8 +83,8 @@ const reportOutput = async (app, { searchString, params: dataParams}, params) =>
   if (dataParams.categoryFilter && Array.isArray(dataParams.categoryFilter) && dataParams.categoryFilter.length > 0) {
     const categoryFilter = dataParams.categoryFilter
       .map(category => {
-        const participant_category = category.toLowerCase();
-        return `LOWER(subjects.metadata ->> '$.participant_category') = '${participant_category}'`;
+        const participant_category = category;
+        return `JSON_CONTAINS(subjects.metadata, '"${participant_category}"', '$.participant_category')`;
       })
       .join(' OR ');
     queryWhere.push(`(${categoryFilter})`);
