@@ -31,6 +31,8 @@ const reportOutput = async (app, { date1, date2, params: dataParams}, params) =>
   */
   let rawq = `select
       subjects.shortcode as 'subjectId', 
+      subjects.first as 'Name',
+      subjects.email as 'Email',
       count(diaries.id) as 'diaryCount',
       sum(diaries.metadata->>"$.duration") / 60 as 'diaryLengthTotal',
       ANY_VALUE(subjects.metadata) as subjectMetadata,
