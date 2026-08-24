@@ -1,7 +1,7 @@
 const errors = require('@feathersjs/errors');
 const hooks = require('./userMaintenance.hooks');
 const notifier = require('../mailer/notifier');
-const { isNotAdmin, getUserEmail } = require('../../hooks/helpers');
+const { isNotAdmin } = require('../../hooks/helpers');
 
 const getDiariesList = require('./actions/getDiariesList');
 

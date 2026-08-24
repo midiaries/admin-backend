@@ -46,6 +46,7 @@
     "feathers-sequelize": "^6.0.1",
     "feathers-shallow-populate": "^2.0.1",
     "fluent-ffmpeg": "2.1.2",
+    "form-data": "^4.0.4",
     "helmet": "^3.20.0",
     "json2csv": "^5.0.1",
     "jszip": "^3.10.0",
