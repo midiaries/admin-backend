@@ -4,6 +4,7 @@ const { Forbidden } = require('@feathersjs/errors');
 const fs = require('fs');
 const TranscriberService = require('../transcriber/transcriber.service.js');
 const ManualCreateTranscript = require('../transcriptMaintenance/actions/manualCreate.js');
+const ManualCreateTranscriptFromElan = require('../transcriptMaintenance/actions/manualCreateFromElan.js');
 const { getMetadata, saveStreamCopy, saveWavCopy } = require('../converter/converter.service.js');
 const { isNotAdmin, lacksMatchingSubId, cancel } = require('../../hooks/helpers');
 
@@ -20,6 +21,10 @@ const fileTypes = [
 const textFileTypes = [
   "txt",
   "tsv"
+];
+
+const elanFileTypes = [
+  'eaf'
 ];
 
 const checkKey = (hook) => {
@@ -41,6 +46,15 @@ const processManualTranscript = async (hook, docId) => {
           })
           .catch(async err => {
             console.log('ManualCreateTranscript error:', err)
+          });
+      } else if (elanFileTypes.some(elanFileType => textExt.includes(elanFileType))) {
+        ManualCreateTranscriptFromElan(hook.app, { audioDocId: docId, textDocId, tierMap: hook.data.tierMap })
+          .then(ret => {
+            console.log('imported', ret.transcriptions.length, 'ELAN transcription(s) for', docId);
+            resolve(true);
+          })
+          .catch(async err => {
+            console.log('ManualCreateTranscriptFromElan error:', err);
           });
       } else {
         resolve(true);
